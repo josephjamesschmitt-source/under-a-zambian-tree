@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="frames/frame_0001.jpg">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -433,7 +434,7 @@
 
   <!-- Photo banner -->
   <div class="photo-banner">
-    <img src="images/dora-playground.jpg" alt="Dora Moono Nyambe at Footprints of Hope">
+    <img src="images/dora-playground.jpg" alt="Dora Moono Nyambe at Footprints of Hope" loading="lazy">
   </div>
 
   <!-- Synopsis — split layout with drop cap -->
@@ -454,24 +455,24 @@
 
   <!-- Image row -->
   <div class="image-row">
-    <img src="images/dora-smiling.jpg" alt="Dora Moono Nyambe">
-    <img src="images/dora-hut.jpg" alt="Dora at a traditional hut in Mapapa">
-    <img src="images/dora-and-joseph.jpg" alt="Dora and Joseph at the school">
+    <img src="images/dora-smiling.jpg" alt="Dora Moono Nyambe" loading="lazy">
+    <img src="images/dora-hut.jpg" alt="Dora at a traditional hut in Mapapa" loading="lazy">
+    <img src="images/dora-and-joseph.jpg" alt="Dora and Joseph at the school" loading="lazy">
   </div>
 
-  <!-- Stats with animated counters -->
-  <section class="stats" id="statsSection">
+  <!-- Stats -->
+  <section class="stats">
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-number" data-target="200" data-suffix="+">0</div>
+        <div class="stat-number">200+</div>
         <div class="stat-label">Children Saved</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-target="4.1" data-suffix="M+" data-decimal="true">0</div>
+        <div class="stat-number">4.1M+</div>
         <div class="stat-label">Global Followers</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-target="21" data-suffix="+">0</div>
+        <div class="stat-number">21+</div>
         <div class="stat-label">Countries Sold In</div>
       </div>
     </div>
@@ -480,7 +481,7 @@
   <!-- Quote — split layout with Dora image left, quote right -->
   <section class="quote-section">
     <div class="quote-image">
-      <img src="images/dora-classroom.jpg" alt="Dora Moono Nyambe">
+      <img src="images/dora-classroom.jpg" alt="Dora Moono Nyambe" loading="lazy">
     </div>
     <div class="quote-content">
       <p class="quote-text">The inspiring and emotional account of one woman's quest to educate and empower rural village children&mdash;a story that reminds us what a single person, fueled by conviction, can accomplish against all odds.</p>
@@ -492,10 +493,10 @@
   <section class="featured-in">
     <div class="featured-label">As Featured In</div>
     <div class="featured-logos">
-      <img src="images/people-logo.svg" alt="People Magazine" class="featured-logo" style="height:44px;">
-      <img src="images/thomson-reuters-logo.svg" alt="Thomson Reuters" class="featured-logo" style="height:34px;">
-      <img src="images/yahoo-news-logo.svg" alt="Yahoo News" class="featured-logo" style="height:44px;">
-      <img src="images/dailymail-logo.svg" alt="Daily Mail" class="featured-logo" style="height:auto;width:180px;">
+      <img src="images/people-logo.svg" alt="People Magazine" class="featured-logo" style="height:44px;" loading="lazy">
+      <img src="images/thomson-reuters-logo.svg" alt="Thomson Reuters" class="featured-logo" style="height:34px;" loading="lazy">
+      <img src="images/yahoo-news-logo.svg" alt="Yahoo News" class="featured-logo" style="height:44px;" loading="lazy">
+      <img src="images/dailymail-logo.svg" alt="Daily Mail" class="featured-logo" style="height:auto;width:180px;" loading="lazy">
     </div>
   </section>
 
@@ -593,53 +594,6 @@
     window.addEventListener('scroll', updateTarget, { passive: true });
     updateTarget();
     requestAnimationFrame(animate);
-
-    // ── Animated stat counters ──
-    const statsSection = document.getElementById('statsSection');
-    let statsAnimated = false;
-
-    function animateCounters() {
-      if (statsAnimated) return;
-      statsAnimated = true;
-
-      document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-        const target = parseFloat(el.dataset.target);
-        const suffix = el.dataset.suffix || '';
-        const isDecimal = el.dataset.decimal === 'true';
-        const isStatic = el.dataset.static;
-
-        if (isStatic) return;
-
-        const duration = 2000;
-        const start = performance.now();
-
-        function tick(now) {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = eased * target;
-
-          if (isDecimal) {
-            el.textContent = current.toFixed(1) + suffix;
-          } else {
-            el.textContent = Math.round(current) + suffix;
-          }
-
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      });
-    }
-
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounters();
-          statsObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    statsObserver.observe(statsSection);
 
     // ── Nav ──
     const nav = document.querySelector('nav');
