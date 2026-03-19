@@ -516,7 +516,7 @@
 
   <script>
     // ── Frame-based scroll animation with lerp ──
-    const TOTAL_FRAMES = 121;
+    const TOTAL_FRAMES = 61;
     const canvas = document.getElementById('bookCanvas');
     const ctx = canvas.getContext('2d');
     const heroScroll = document.getElementById('heroScroll');
@@ -529,19 +529,27 @@
     let smoothFrame = 0;
     const LERP_SPEED = 0.12;
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      img.src = `frames/frame_${String(i).padStart(4, '0')}.jpg`;
-      img.onload = () => {
-        framesLoaded++;
-        if (framesLoaded === 1) {
-          canvas.width = img.naturalWidth;
-          canvas.height = img.naturalHeight;
-          ctx.drawImage(frames[0], 0, 0);
-          displayedFrame = 0;
-        }
-      };
-      frames.push(img);
+    // Load first frame immediately with high priority
+    const firstImg = new Image();
+    firstImg.src = 'frames/frame_0001.jpg';
+    firstImg.onload = () => {
+      canvas.width = firstImg.naturalWidth;
+      canvas.height = firstImg.naturalHeight;
+      ctx.drawImage(firstImg, 0, 0);
+      displayedFrame = 0;
+      framesLoaded++;
+      // Load remaining frames after first is displayed
+      loadRemainingFrames();
+    };
+    frames.push(firstImg);
+
+    function loadRemainingFrames() {
+      for (let i = 2; i <= TOTAL_FRAMES; i++) {
+        const img = new Image();
+        img.src = `frames/frame_${String(i).padStart(4, '0')}.jpg`;
+        img.onload = () => { framesLoaded++; };
+        frames.push(img);
+      }
     }
 
     function drawFrame(index) {

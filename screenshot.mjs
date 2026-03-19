@@ -16,7 +16,7 @@ async function main() {
     const waitStrategy = name === 'press' ? 'domcontentloaded' : 'networkidle';
     await page.goto(url, { waitUntil: waitStrategy });
     if (name === 'home') {
-      await page.waitForFunction(() => typeof framesLoaded !== 'undefined' && framesLoaded >= 121, { timeout: 30000 });
+      await page.waitForFunction(() => typeof framesLoaded !== 'undefined' && framesLoaded >= 61, { timeout: 30000 });
     }
     await page.waitForTimeout(1500);
     await page.screenshot({ path: `screenshot-${name}.png`, fullPage: true });
