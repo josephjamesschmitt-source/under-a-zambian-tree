@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Under a Zambian Tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #000;
+      color: #e8e0d4;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    nav .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      text-decoration: none;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    nav .nav-links a {
+      color: #999;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    nav .nav-links a:hover,
+    nav .nav-links a.active {
+      color: #c9a84c;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      padding: 8rem 2rem 2rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .page-header .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+
+    /* ── Sections ── */
+    .about-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .about-section + .about-section {
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .about-section .label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 2rem;
+    }
+
+    .about-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-section p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #aaa;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-section::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+
+    /* ── Quote Block ── */
+    .about-quote {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .about-quote .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      color: #c9a84c;
+      opacity: 0.5;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .about-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1.7;
+      color: #d4cbbf;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-quote .attribution {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #888;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CTA ── */
+    .cta-bar {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .cta-bar h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .cta-bar p {
+      color: #888;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      background: #c9a84c;
+      color: #000;
+    }
+
+    .btn:hover {
+      background: #d4b85e;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(201, 168, 76, 0.25);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    footer p { font-size: 0.75rem; color: #444; letter-spacing: 0.05em; }
+    footer a { color: #666; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: #c9a84c; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav .nav-links { gap: 1.5rem; }
+      nav .nav-links a { font-size: 0.7rem; }
+    }
+
+    @media (max-width: 480px) {
+      nav .logo { font-size: 0.9rem; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Under a Zambian Tree</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="press.html">Press</a></li>
+      <li><a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener">Buy</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="section-label">About the Book</div>
+    <h1>The Story Behind<br>Under a Zambian Tree</h1>
+  </div>
+
+  <!-- Hero image -->
+  <div class="about-hero-image" style="max-width:1000px;margin:0 auto 0;padding:0 2rem;">
+    <img src="images/dora-playground.jpg" alt="Dora at Footprints of Hope" style="width:100%;height:400px;object-fit:cover;object-position:center top;display:block;filter:brightness(0.75);">
+  </div>
+
+  <!-- The Book -->
+  <section class="about-section">
+    <div class="label">The Book</div>
+    <h2>An Inspiring True Story</h2>
+    <p>Under a Zambian Tree is the inspiring and emotional account of one woman's quest to educate and empower rural village children. Dora Moono Nyambe&mdash;or "Teacher Dora"&mdash;began with no funding and no school building, just an unwavering belief that kindness should drive humanity and development.</p>
+    <p>At twenty-seven years old, Dora took her meager savings and moved to a remote village in Zambia. She built a mud hut and started teaching children underneath a tree. Three years later, she had saved over 200 children from abuse, forced marriage, rape, and neglect.</p>
+    <p>From preventing child marriages and navigating village politics to reaching millions of supporters online, Teacher Dora's epic journey from a mud hut to a full-fledged boarding school is a testament to her incredible resilience and tenacity. Proceeds from the first 5,000 copies directly support Footprints of Hope.</p>
+  </section>
+
+  <!-- Dora -->
+  <section class="about-section">
+    <div style="float:left;margin:0 2rem 1.5rem 0;width:280px;">
+      <img src="images/dora-smiling.jpg" alt="Dora Moono Nyambe" style="width:100%;display:block;filter:brightness(0.85);">
+    </div>
+    <div class="label">The Subject</div>
+    <h2>Dora Moono Nyambe</h2>
+    <p>Dora Moono Nyambe is a UN-recognized global education and girls' rights advocate from Lusaka, Zambia. She founded Footprints of Hope, a nonprofit providing free education, food, and housing to 180&ndash;200 students in Mapapa.</p>
+    <p>The organization serves children who are victims of abuse, child marriage, rape, and neglect. What started with teaching under a tree has grown into a boarding school with 12 classrooms, a dining hall, library, computer lab, dormitories, and safe houses&mdash;all built without government or institutional funding.</p>
+    <p>Dora's advocacy has garnered global attention, amassing over 4 million followers on TikTok. In October 2022, she was a keynote speaker at the United Nations International Day of the Girl Child in Istanbul, Turkey.</p>
+  </section>
+
+  <!-- The Author -->
+  <section class="about-section">
+    <div style="float:right;margin:0 0 1.5rem 2rem;width:280px;">
+      <img src="images/joseph-outdoor.jpg" alt="Joseph Schmitt" style="width:100%;display:block;filter:brightness(0.85);">
+    </div>
+    <div class="label">The Author</div>
+    <h2>Joseph Schmitt</h2>
+    <p>Joseph Schmitt is an American writer, ecotourism researcher, and expedition traveler. Born and raised in Kohler, Wisconsin, he attended Northeastern University in Boston, Massachusetts.</p>
+    <p>In 2021, Joseph was awarded the prestigious Fulbright Research Grant to conduct ecotourism research in Zambia. When he visited a village school for impoverished children while on his Fulbright scholarship, he expected to spend a pleasant day with teachers and students before resuming his study of ecotourism. Instead, he ended up spending a year shadowing the school's founder, Dora Moono Nyambe, and writing a book chronicling her experiences.</p>
+    <p>After witnessing Nyambe's work firsthand, Schmitt felt her impact wasn't receiving adequate recognition. He spent hundreds of hours interviewing and shadowing her while completing his research. He went on to become a Schwarzman Scholar, earning his master's degree at Tsinghua University in Beijing, China. Today, he continues to conduct research, write, and seek adventure.</p>
+  </section>
+
+  <!-- Guest Lectures -->
+  <section class="about-section">
+    <div class="label">Guest Lectures</div>
+    <h2>Speaking Engagements</h2>
+    <p>Joseph has been invited to speak about Under a Zambian Tree and the power of education at universities across the United States.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:4rem;flex-wrap:wrap;margin-top:2.5rem;">
+      <img src="images/upenn-logo-white.svg" alt="University of Pennsylvania" style="height:45px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+      <img src="images/bu-logo-white.svg" alt="Boston University" style="height:40px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+      <img src="images/northeastern-logo-white.svg" alt="Northeastern University" style="height:18px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+      <img src="images/drexel-logo-white.svg" alt="Drexel University" style="width:120px;height:auto;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+    </div>
+  </section>
+
+  <!-- Photo break -->
+  <div class="reveal" style="max-width:1000px;margin:0 auto;padding:0 2rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+      <img src="images/dora-and-joseph.jpg" alt="Dora and Joseph at the school" style="width:100%;height:300px;object-fit:cover;object-position:center top;display:block;filter:brightness(0.75);">
+      <img src="images/group-photo.jpg" alt="The Footprints of Hope team" style="width:100%;height:300px;object-fit:cover;object-position:center top;display:block;filter:brightness(0.75);">
+    </div>
+  </div>
+
+  <!-- How They Connected -->
+  <section class="about-section">
+    <div class="label">The Connection</div>
+    <h2>How the Book Came to Be</h2>
+    <p>Schmitt gained a significant social media presence during his Fulbright work, accumulating thousands of TikTok followers documenting his time in Zambia. Nyambe, who has over 4 million TikTok followers, commented on one of his videos requesting he speak to her students.</p>
+    <p>Within twelve hours, she messaged him directly. His initial one-day visit to her school extended to a week-long stay&mdash;and ultimately, a year of documenting her extraordinary journey. The result was Under a Zambian Tree.</p>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <h3>Read the Story</h3>
+    <p>Available now in hardcover, paperback, and Kindle</p>
+    <a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener" class="btn">Order Now</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Joseph Schmitt. All rights reserved. &nbsp;|&nbsp; <a href="http://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a></p>
+  </footer>
+
+  <script>
+    // Static content — no scroll animations
+  </script>
+</body>
+</html>

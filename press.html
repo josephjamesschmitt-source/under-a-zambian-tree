@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Press | Under a Zambian Tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #000;
+      color: #e8e0d4;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    nav .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      text-decoration: none;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    nav .nav-links a {
+      color: #999;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    nav .nav-links a:hover,
+    nav .nav-links a.active {
+      color: #c9a84c;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      padding: 10rem 2rem 3rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .page-header .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+
+    .page-header .intro {
+      font-size: 1rem;
+      color: #888;
+      margin-top: 1.5rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+
+    /* ── Featured In ── */
+    .featured-in {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .featured-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 2.5rem;
+    }
+
+    .featured-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .featured-logo {
+      height: 50px;
+      opacity: 0.7;
+      transition: opacity 0.4s ease;
+      filter: brightness(0) invert(1);
+    }
+
+    .featured-logo:hover {
+      opacity: 1;
+    }
+
+    /* ── Press Articles ── */
+    .press-section-label {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2rem;
+    }
+
+    .press-section-label .label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9a84c;
+    }
+
+    .press-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .press-item {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 0;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid rgba(201, 168, 76, 0.08);
+      transition: border-color 0.4s ease, transform 0.4s ease, background 0.4s ease;
+      overflow: hidden;
+    }
+
+    .press-item:hover {
+      border-color: rgba(201, 168, 76, 0.3);
+      transform: translateY(-2px);
+      background: rgba(201, 168, 76, 0.02);
+    }
+
+    .press-item-image {
+      width: 100%;
+      height: 100%;
+      min-height: 180px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.7) saturate(0.8);
+      transition: filter 0.4s ease;
+    }
+
+    .press-item:hover .press-item-image {
+      filter: brightness(0.85) saturate(1);
+    }
+
+    .press-item-image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(201, 168, 76, 0.04);
+      border-right: 1px solid rgba(201, 168, 76, 0.08);
+    }
+
+    .press-item-content {
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .press-source {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 0.3rem;
+    }
+
+    .press-date {
+      font-size: 0.7rem;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    .press-item-content h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .press-item-content p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #777;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      transition: opacity 0.3s;
+    }
+
+    .press-item:hover .read-more {
+      opacity: 0.7;
+    }
+
+    /* ── Social Section ── */
+    .social-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .social-section .label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #888;
+      margin-bottom: 2rem;
+    }
+
+    .social-handles {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .social-handle {
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .social-handle:hover {
+      border-color: #c9a84c;
+      background: rgba(201, 168, 76, 0.06);
+    }
+
+    .social-handle .handle-name {
+      font-size: 0.9rem;
+      color: #fff;
+      font-weight: 400;
+    }
+
+    .social-handle .handle-platform {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Contact ── */
+    .contact-section {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .contact-section .label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #888;
+    }
+
+    .contact-section a {
+      color: #c9a84c;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+      transition: border-color 0.3s;
+    }
+
+    .contact-section a:hover {
+      border-color: #c9a84c;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    footer p { font-size: 0.75rem; color: #444; letter-spacing: 0.05em; }
+    footer a { color: #666; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: #c9a84c; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav .nav-links { gap: 1.5rem; }
+      nav .nav-links a { font-size: 0.7rem; }
+
+      .featured-logos { gap: 2.5rem; }
+      .featured-logo { height: 35px; }
+
+      .press-item {
+        grid-template-columns: 1fr;
+      }
+
+      .press-item-image,
+      .press-item-image-placeholder {
+        min-height: 160px;
+        max-height: 200px;
+      }
+
+      .social-handles {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav .logo { font-size: 0.9rem; }
+      nav .nav-links { display: none; }
+
+      .featured-logos { gap: 2rem; }
+      .featured-logo { height: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Under a Zambian Tree</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="press.html" class="active">Press</a></li>
+      <li><a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener">Buy</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="section-label">Media Coverage</div>
+    <h1>Press</h1>
+    <p class="intro">Coverage and features about Under a Zambian Tree and the extraordinary story of Teacher Dora.</p>
+  </div>
+
+  <!-- Featured In -->
+  <section class="featured-in">
+    <div class="featured-label">As Featured In</div>
+    <div class="featured-logos">
+      <img src="images/people-logo.svg" alt="People Magazine" class="featured-logo" style="height:38px;">
+      <img src="images/thomson-reuters-logo.svg" alt="Thomson Reuters" class="featured-logo" style="height:28px;">
+      <img src="images/yahoo-news-logo.svg" alt="Yahoo News" class="featured-logo" style="height:38px;">
+      <img src="images/dailymail-logo.svg" alt="Daily Mail" class="featured-logo" style="height:auto;width:160px;">
+    </div>
+  </section>
+
+  <!-- Articles -->
+  <div class="press-section-label">
+    <div class="label">Articles &amp; Features</div>
+  </div>
+
+  <div class="press-grid">
+
+    <a href="https://news.northeastern.edu/2023/02/28/dora-moono-nyambe-under-a-zambian-tree/" target="_blank" rel="noopener" class="press-item">
+      <div class="press-item-image-placeholder">
+        <img src="images/dora-classroom.jpg" alt="Dora in the classroom" class="press-item-image">
+      </div>
+      <div class="press-item-content">
+        <div class="press-source">Northeastern University</div>
+        <div class="press-date">February 28, 2023</div>
+        <h3>Northeastern Graduate Writes Book About a Young Zambian Woman Fighting Poverty with Education</h3>
+        <p>Northeastern Global News profiles how Fulbright scholar Joseph Schmitt's one-day visit to a village school turned into a year-long journey documenting Dora Moono Nyambe's mission.</p>
+        <span class="read-more">Read Article &rarr;</span>
+      </div>
+    </a>
+
+    <a href="https://www.yahoo.com/news/kohler-native-joseph-schmitt-shares-110212772.html" target="_blank" rel="noopener" class="press-item">
+      <div class="press-item-image-placeholder">
+        <img src="images/dora-and-joseph.jpg" alt="Dora and Joseph" class="press-item-image">
+      </div>
+      <div class="press-item-content">
+        <div class="press-source">Yahoo News / Sheboygan Press</div>
+        <div class="press-date">2023</div>
+        <h3>Kohler Native Shares Zambian Woman's Incredible Journey in New Book</h3>
+        <p>How a Kohler, Wisconsin native didn't set out to write a book, but after meeting a UN-recognized education advocate on a Fulbright scholarship, he shared her story with the world.</p>
+        <span class="read-more">Read Article &rarr;</span>
+      </div>
+    </a>
+
+    <a href="https://undergraduate.northeastern.edu/research/news/im-trying-to-amplify-her-voice-northeastern-graduate-writes-book-about-a-young-zambian-woman-who-is-fighting-poverty-with-education-hope-and-social-media/" target="_blank" rel="noopener" class="press-item">
+      <div class="press-item-image-placeholder">
+        <img src="images/dora-hut.jpg" alt="Dora at the school" class="press-item-image">
+      </div>
+      <div class="press-item-content">
+        <div class="press-source">Northeastern Research</div>
+        <div class="press-date">2023</div>
+        <h3>Fighting Poverty with Education, Hope, and Social Media</h3>
+        <p>Northeastern's undergraduate research program highlights how Schmitt's Fulbright research led to the creation of Under a Zambian Tree and the story's connection to social media activism.</p>
+        <span class="read-more">Read Article &rarr;</span>
+      </div>
+    </a>
+
+    <a href="https://damore-mckim.northeastern.edu/news/im-trying-to-amplify-her-voice-northeastern-graduate-writes-book-about-a-young-zambian-woman-who-is-fighting-poverty-with-education-hope-and-social-media/" target="_blank" rel="noopener" class="press-item">
+      <div class="press-item-image-placeholder">
+        <img src="images/group-photo.jpg" alt="Footprints of Hope team" class="press-item-image">
+      </div>
+      <div class="press-item-content">
+        <div class="press-source">D'Amore-McKim School of Business</div>
+        <div class="press-date">2023</div>
+        <h3>The Intersection of Business, Impact, and Storytelling</h3>
+        <p>Northeastern's D'Amore-McKim School spotlights the book and its connection to Schmitt's academic work at the intersection of business and social impact.</p>
+        <span class="read-more">Read Article &rarr;</span>
+      </div>
+    </a>
+
+    <a href="https://thevibewithky.com/2024/12/26/under-a-zambian-tree-the-story-of-dora-moono-nyambe-ft-joseph-schmitt/" target="_blank" rel="noopener" class="press-item">
+      <div class="press-item-image-placeholder">
+        <img src="images/dora-playground.jpg" alt="Dora at Footprints of Hope" class="press-item-image">
+      </div>
+      <div class="press-item-content">
+        <div class="press-source">The Vibe With Ky</div>
+        <div class="press-date">Podcast &middot; December 2024</div>
+        <h3>How Dora Moono Nyambe Transformed Education in Rural Zambia</h3>
+        <p>Joseph Schmitt joins The Vibe With Ky to discuss Dora's mission, the inspiration behind the book, and how a chance TikTok connection led to a story that needed to be told.</p>
+        <span class="read-more">Listen Now &rarr;</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Social -->
+  <section class="social-section">
+    <div class="label">Follow the Journey</div>
+    <h2>Connect on Social Media</h2>
+    <p>Follow Joseph and Dora's story on TikTok, where millions of followers have joined the journey.</p>
+    <div class="social-handles">
+      <a href="https://www.tiktok.com/@explorewithjoe" target="_blank" rel="noopener" class="social-handle">
+        <div class="handle-name">@explorewithjoe</div>
+        <div class="handle-platform">Joseph Schmitt &middot; TikTok</div>
+      </a>
+      <a href="https://www.tiktok.com/@doramoononyambe" target="_blank" rel="noopener" class="social-handle">
+        <div class="handle-name">@doramoononyambe</div>
+        <div class="handle-platform">Dora Moono Nyambe &middot; TikTok</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-section">
+    <div class="label">Press Inquiries</div>
+    <p>For press inquiries, interviews, or review copies, please visit <a href="http://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a>.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Joseph Schmitt. All rights reserved. &nbsp;|&nbsp; <a href="http://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a></p>
+  </footer>
+
+</body>
+</html>

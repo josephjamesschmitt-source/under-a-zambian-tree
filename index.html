@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Under a Zambian Tree | Joseph Schmitt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #000;
+      color: #e8e0d4;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.4s ease, padding 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      padding: 1rem 3rem;
+    }
+    nav .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: #c9a84c; text-decoration: none;
+    }
+    nav .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    nav .nav-links a {
+      color: #999; text-decoration: none;
+      font-size: 0.8rem; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    nav .nav-links a:hover, nav .nav-links a.active { color: #c9a84c; }
+
+    /* ── Hero scroll — 220vh total = 100vh visible + 120vh scroll for animation ── */
+    .hero-scroll { position: relative; height: 220vh; }
+    .hero-sticky {
+      position: sticky; top: 0; height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; padding-top: 5rem;
+      overflow: hidden;
+    }
+    .hero-canvas-container {
+      width: 90%; max-width: 550px; flex-shrink: 0;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 1s ease 0.2s forwards;
+    }
+    .hero-canvas-container canvas { width: 100%; display: block; background: #000; }
+
+    .hero-text {
+      text-align: center; max-width: 650px;
+      padding: 2rem 2rem 0;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+    .hero-text .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: #c9a84c; margin-bottom: 1.2rem;
+    }
+    .hero-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 600;
+      line-height: 1.15; color: #fff; margin-bottom: 0.8rem;
+    }
+    .hero-text .author {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 300;
+      letter-spacing: 0.12em; color: #888; margin-bottom: 1.5rem;
+    }
+    .hero-text .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.2rem;
+      color: #b0a48a; line-height: 1.6;
+    }
+    .scroll-indicator {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%); text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeUp 1s ease 1.5s forwards;
+      transition: opacity 0.5s ease;
+    }
+    .scroll-indicator.hidden { opacity: 0 !important; pointer-events: none; }
+    .scroll-indicator span {
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #555;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, #c9a84c, transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ── Photo Banner ── */
+    .photo-banner {
+      width: 100%; overflow: hidden;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+    .photo-banner img {
+      width: 100%; height: 400px;
+      object-fit: cover; object-position: center 8%;
+      display: block; filter: brightness(0.7);
+    }
+
+    /* ── Image Row ── */
+    .image-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .image-row img {
+      width: 100%; height: 350px;
+      object-fit: cover; object-position: center top;
+      display: block; filter: brightness(0.75);
+      transition: filter 0.4s ease;
+    }
+    .image-row img:hover { filter: brightness(0.95); }
+
+    /* ── Synopsis ── */
+    .synopsis {
+      padding: 6rem 2rem;
+      max-width: 800px; margin: 0 auto; text-align: center;
+    }
+    .synopsis .section-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #fff; margin-bottom: 2.5rem;
+    }
+    .synopsis p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+      line-height: 1.8; color: #c8c0b4; margin-bottom: 2rem;
+    }
+    .synopsis p:last-of-type { margin-bottom: 0; }
+
+    /* ── Stats ── */
+    .stats {
+      padding: 5rem 2rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+    .stats-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 3rem; text-align: center;
+    }
+    .stat-item { }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      color: #c9a84c; margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.75rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase; color: #777;
+    }
+
+    /* ── Quote ── */
+    .quote-section {
+      padding: 3rem 2rem; text-align: center;
+      max-width: 750px; margin: 0 auto;
+    }
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem; color: #c9a84c; opacity: 0.5;
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      line-height: 1.7; color: #d4cbbf; margin-bottom: 1.5rem;
+    }
+    .quote-attribution {
+      font-size: 0.8rem; font-weight: 400;
+      letter-spacing: 0.12em; color: #888;
+    }
+
+    /* ── Featured In ── */
+    .featured-in {
+      max-width: 1000px; margin: 0 auto;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    .featured-label {
+      font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.35em; text-transform: uppercase;
+      color: #c9a84c; margin-bottom: 2.5rem;
+    }
+    .featured-logos {
+      display: flex; align-items: center;
+      justify-content: center; gap: 4rem; flex-wrap: wrap;
+    }
+    .featured-logo {
+      height: 50px; opacity: 0.7;
+      transition: opacity 0.4s ease;
+      filter: brightness(0) invert(1);
+    }
+    .featured-logo:hover { opacity: 1; }
+
+    /* ── CTA ── */
+    .cta { padding: 6rem 2rem; text-align: center; }
+    .cta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 600;
+      color: #fff; margin-bottom: 1rem;
+    }
+    .cta .cta-subtitle {
+      font-size: 0.9rem; color: #888;
+      margin-bottom: 3rem; font-weight: 300;
+    }
+    .cta-buttons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 1rem 2.5rem; font-family: 'Inter', sans-serif;
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.4s ease;
+    }
+    .btn-primary { background: #c9a84c; color: #000; }
+    .btn-primary:hover {
+      background: #d4b85e; transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(201,168,76,0.25);
+    }
+    .btn-secondary {
+      background: transparent; color: #c9a84c;
+      border: 1px solid rgba(201,168,76,0.4);
+    }
+    .btn-secondary:hover {
+      border-color: #c9a84c;
+      background: rgba(201,168,76,0.08);
+      transform: translateY(-2px);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+    footer p { font-size: 0.75rem; color: #444; letter-spacing: 0.05em; }
+    footer a { color: #666; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: #c9a84c; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 0.8; transform: scaleY(1.2); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav .nav-links { gap: 1.5rem; }
+      nav .nav-links a { font-size: 0.7rem; }
+      .hero-canvas-container { max-width: 400px; }
+      .stats-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .featured-logos { gap: 2rem; }
+      .image-row { grid-template-columns: 1fr; }
+      .image-row img { height: 250px; object-position: center top; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 480px) {
+      nav .logo { font-size: 0.9rem; }
+      nav .nav-links { display: none; }
+      .hero-canvas-container { max-width: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Under a Zambian Tree</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="press.html">Press</a></li>
+      <li><a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener">Buy</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero: 200vh = animation finishes right as content begins -->
+  <section class="hero-scroll" id="heroScroll">
+    <div class="hero-sticky">
+      <div class="hero-canvas-container">
+        <canvas id="bookCanvas"></canvas>
+      </div>
+      <div class="hero-text">
+        <div class="subtitle">A True Story of Resilience &amp; Hope</div>
+        <h1>Under a Zambian Tree</h1>
+        <div class="author">by Joseph Schmitt &nbsp;&middot;&nbsp; Foreword by Dora Moono Nyambe</div>
+        <p class="tagline">"Kindness should drive humanity and development."</p>
+      </div>
+      <div class="scroll-indicator" id="scrollIndicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo banner -->
+  <div class="photo-banner">
+    <img src="images/dora-playground.jpg" alt="Dora Moono Nyambe at Footprints of Hope">
+  </div>
+
+  <!-- Synopsis -->
+  <section class="synopsis" id="synopsis">
+    <div>
+      <div class="section-label">The Story</div>
+      <p>At twenty-seven years old, Dora Moono Nyambe took her meager savings and moved to a remote village in Zambia. She built a mud hut and began teaching children underneath a tree&mdash;with no funding, no school building, and nothing but an unwavering belief that education could change everything.</p>
+      <p>Three years later, Teacher Dora had saved over 200 children from abuse, forced marriage, and neglect. Her advocacy garnered global attention, amassing millions of followers worldwide and earning her an invitation to speak at the United Nations.</p>
+      <p>From preventing child marriages and navigating village politics to reaching supporters across the globe, her epic journey from a mud hut to a full-fledged boarding school is a testament to incredible resilience and tenacity.</p>
+    </div>
+  </section>
+
+  <!-- Image row -->
+  <div class="image-row">
+    <img src="images/dora-smiling.jpg" alt="Dora Moono Nyambe">
+    <img src="images/dora-hut.jpg" alt="Dora at a traditional hut in Mapapa">
+    <img src="images/dora-and-joseph.jpg" alt="Dora and Joseph at the school">
+  </div>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">200+</div>
+        <div class="stat-label">Children Saved</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3.9M+</div>
+        <div class="stat-label">Global Followers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">UN</div>
+        <div class="stat-label">Keynote Speaker</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote-section">
+    <div>
+      <p class="quote-text">The inspiring and emotional account of one woman's quest to educate and empower rural village children&mdash;a story that reminds us what a single person, fueled by conviction, can accomplish against all odds.</p>
+      <p class="quote-attribution">&mdash; Under a Zambian Tree</p>
+    </div>
+  </section>
+
+  <!-- Featured In -->
+  <section class="featured-in">
+    <div class="featured-label">As Featured In</div>
+    <div class="featured-logos">
+      <img src="images/people-logo.svg" alt="People Magazine" class="featured-logo" style="height:38px;">
+      <img src="images/thomson-reuters-logo.svg" alt="Thomson Reuters" class="featured-logo" style="height:28px;">
+      <img src="images/yahoo-news-logo.svg" alt="Yahoo News" class="featured-logo" style="height:38px;">
+      <img src="images/dailymail-logo.svg" alt="Daily Mail" class="featured-logo" style="height:auto;width:160px;">
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="order">
+    <div>
+      <h2>Read the Story</h2>
+      <p class="cta-subtitle">Available now in hardcover, paperback, and Kindle</p>
+      <div class="cta-buttons">
+        <a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener" class="btn btn-primary">Order Hardcover</a>
+        <a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-educate-ebook/dp/B0BNZ5Q8TN" target="_blank" rel="noopener" class="btn btn-secondary">Kindle Edition</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Joseph Schmitt. All rights reserved. &nbsp;|&nbsp; <a href="http://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a></p>
+  </footer>
+
+  <script>
+    // ── Frame-based scroll animation with lerp ──
+    const TOTAL_FRAMES = 121;
+    const canvas = document.getElementById('bookCanvas');
+    const ctx = canvas.getContext('2d');
+    const heroScroll = document.getElementById('heroScroll');
+    const scrollIndicator = document.getElementById('scrollIndicator');
+
+    const frames = [];
+    let framesLoaded = 0;
+    let displayedFrame = -1;
+    let targetFrame = 0;
+    let smoothFrame = 0;
+    const LERP_SPEED = 0.12;
+
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.src = `frames/frame_${String(i).padStart(4, '0')}.jpg`;
+      img.onload = () => {
+        framesLoaded++;
+        if (framesLoaded === 1) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          ctx.drawImage(frames[0], 0, 0);
+          displayedFrame = 0;
+        }
+      };
+      frames.push(img);
+    }
+
+    function drawFrame(index) {
+      const i = Math.max(0, Math.min(TOTAL_FRAMES - 1, index));
+      if (i === displayedFrame) return;
+      if (!frames[i] || !frames[i].complete) return;
+      ctx.drawImage(frames[i], 0, 0);
+      displayedFrame = i;
+    }
+
+    function updateTarget() {
+      // hero-scroll is 200vh, so scrollable = 100vh exactly
+      const scrollableHeight = heroScroll.offsetHeight - window.innerHeight;
+      const progress = Math.min(1, Math.max(0, window.scrollY / scrollableHeight));
+      targetFrame = progress * (TOTAL_FRAMES - 1);
+
+      if (window.scrollY > 50) {
+        scrollIndicator.classList.add('hidden');
+      } else {
+        scrollIndicator.classList.remove('hidden');
+      }
+    }
+
+    function animate() {
+      const diff = targetFrame - smoothFrame;
+      // Snap to final frame when we're at the end (no lerp lag)
+      if (targetFrame >= TOTAL_FRAMES - 2) {
+        smoothFrame = targetFrame;
+      } else if (Math.abs(diff) > 0.1) {
+        smoothFrame += diff * LERP_SPEED;
+      } else {
+        smoothFrame = targetFrame;
+      }
+      drawFrame(Math.round(smoothFrame));
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('scroll', updateTarget, { passive: true });
+    updateTarget();
+    requestAnimationFrame(animate);
+
+    // ── Reveals ──
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ── Nav ──
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>
