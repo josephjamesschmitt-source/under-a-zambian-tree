@@ -13,7 +13,8 @@ async function main() {
     ['about', `${BASE}/about.html`],
     ['press', `${BASE}/press.html`],
   ]) {
-    await page.goto(url, { waitUntil: 'networkidle' });
+    const waitStrategy = name === 'press' ? 'domcontentloaded' : 'networkidle';
+    await page.goto(url, { waitUntil: waitStrategy });
     if (name === 'home') {
       await page.waitForFunction(() => typeof framesLoaded !== 'undefined' && framesLoaded >= 121, { timeout: 30000 });
     }

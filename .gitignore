@@ -1,3 +1,5 @@
 video-frames/
 node_modules/
 screenshot-*.png
+*.mp4
+.DS_Store

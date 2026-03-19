@@ -71,6 +71,22 @@
     nav .nav-links a.active {
       color: #c9a84c;
     }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+      background: none; border: none;
+    }
+    .hamburger span {
+      width: 22px; height: 1.5px; background: #c9a84c;
+      transition: all 0.3s ease;
+    }
+    nav.mobile-open .nav-links {
+      display: flex !important; flex-direction: column;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(0,0,0,0.95); padding: 2rem;
+      gap: 1.5rem; align-items: center;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
 
     /* ── Page Header ── */
     .page-header {
@@ -189,18 +205,30 @@
       border-top: 1px solid rgba(201, 168, 76, 0.1);
     }
 
-    .cta-bar h3 {
+    .cta-bar h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
+      font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 600;
       color: #fff;
       margin-bottom: 1rem;
     }
 
-    .cta-bar p {
+    .cta-bar .cta-subtitle {
       color: #888;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    .amazon-rating {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; color: #c9a84c; margin-bottom: 2.5rem;
+    }
+    .amazon-rating .stars { letter-spacing: 0.1em; }
+    .amazon-rating .rating-text { color: #888; font-size: 0.75rem; }
+
+    .cta-buttons {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
     }
 
     .btn {
@@ -217,14 +245,21 @@
       border: none;
       cursor: pointer;
       transition: all 0.4s ease;
-      background: #c9a84c;
-      color: #000;
     }
 
-    .btn:hover {
-      background: #d4b85e;
-      transform: translateY(-2px);
+    .btn-primary { background: #c9a84c; color: #000; }
+    .btn-primary:hover {
+      background: #d4b85e; transform: translateY(-2px);
       box-shadow: 0 10px 40px rgba(201, 168, 76, 0.25);
+    }
+    .btn-secondary {
+      background: transparent; color: #c9a84c;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+    }
+    .btn-secondary:hover {
+      border-color: #c9a84c;
+      background: rgba(201, 168, 76, 0.08);
+      transform: translateY(-2px);
     }
 
     /* ── Footer ── */
@@ -243,27 +278,31 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
     /* ── Responsive ── */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       nav .nav-links { gap: 1.5rem; }
       nav .nav-links a { font-size: 0.7rem; }
+      .page-header { padding: 6rem 1.5rem 1.5rem; }
+      .about-section { padding: 2rem 1.5rem; }
+      .cta-bar { padding: 3rem 1.5rem; }
+      .cta-buttons { flex-direction: column; align-items: center; }
     }
 
     @media (max-width: 480px) {
+      nav { padding: 0.75rem 1rem; }
       nav .logo { font-size: 0.9rem; }
       nav .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .page-header { padding: 5rem 1rem 1rem; }
+      .page-header h1 { font-size: 2rem; }
+      .about-section { padding: 1.5rem 1rem; }
+      .about-section h2 { font-size: 1.5rem; }
+      .about-section p { font-size: 0.9rem; }
+      [style*="float"] { float: none !important; margin: 0 0 1.5rem 0 !important; width: 100% !important; }
+      .cta-bar { padding: 2.5rem 1rem; }
+      .btn { padding: 0.85rem 1.5rem; font-size: 0.75rem; }
+      .amazon-rating { flex-direction: column; gap: 0.25rem; }
     }
   </style>
 </head>
@@ -277,6 +316,9 @@
       <li><a href="press.html">Press</a></li>
       <li><a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener">Buy</a></li>
     </ul>
+    <button class="hamburger" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('mobile-open')">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <div class="page-header">
@@ -286,7 +328,7 @@
 
   <!-- Hero image -->
   <div class="about-hero-image" style="max-width:1000px;margin:0 auto 0;padding:0 2rem;">
-    <img src="images/dora-playground.jpg" alt="Dora at Footprints of Hope" style="width:100%;height:400px;object-fit:cover;object-position:center top;display:block;filter:brightness(0.75);">
+    <img src="images/dora-playground.jpg" alt="Dora at Footprints of Hope" style="width:100%;height:400px;object-fit:cover;object-position:center top;display:block;">
   </div>
 
   <!-- The Book -->
@@ -301,7 +343,7 @@
   <!-- Dora -->
   <section class="about-section">
     <div style="float:left;margin:0 2rem 1.5rem 0;width:280px;">
-      <img src="images/dora-smiling.jpg" alt="Dora Moono Nyambe" style="width:100%;display:block;filter:brightness(0.85);">
+      <img src="images/dora-smiling.jpg" alt="Dora Moono Nyambe" style="width:100%;display:block;">
     </div>
     <div class="label">The Subject</div>
     <h2>Dora Moono Nyambe</h2>
@@ -313,7 +355,7 @@
   <!-- The Author -->
   <section class="about-section">
     <div style="float:right;margin:0 0 1.5rem 2rem;width:280px;">
-      <img src="images/joseph-outdoor.jpg" alt="Joseph Schmitt" style="width:100%;display:block;filter:brightness(0.85);">
+      <img src="images/joseph-outdoor.jpg" alt="Joseph Schmitt" style="width:100%;display:block;">
     </div>
     <div class="label">The Author</div>
     <h2>Joseph Schmitt</h2>
@@ -326,44 +368,32 @@
   <section class="about-section">
     <div class="label">Guest Lectures</div>
     <h2>Speaking Engagements</h2>
-    <p>Joseph has been invited to speak about Under a Zambian Tree and the power of education at universities across the United States.</p>
+    <p>Dora and Joseph have been invited to speak about Under a Zambian Tree and the power of education at universities across the United States.</p>
     <div style="display:flex;align-items:center;justify-content:center;gap:4rem;flex-wrap:wrap;margin-top:2.5rem;">
-      <img src="images/upenn-logo-white.svg" alt="University of Pennsylvania" style="height:45px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+      <img src="images/upenn-logo-white.svg" alt="University of Pennsylvania" style="height:40px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
       <img src="images/bu-logo-white.svg" alt="Boston University" style="height:40px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
       <img src="images/northeastern-logo-white.svg" alt="Northeastern University" style="height:18px;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-      <img src="images/drexel-logo-white.svg" alt="Drexel University" style="width:120px;height:auto;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+      <img src="images/drexel-logo-white.svg" alt="Drexel University" style="width:100px;height:auto;opacity:0.7;transition:opacity 0.4s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
     </div>
-  </section>
-
-  <!-- Photo break -->
-  <div class="reveal" style="max-width:1000px;margin:0 auto;padding:0 2rem;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
-      <img src="images/dora-and-joseph.jpg" alt="Dora and Joseph at the school" style="width:100%;height:300px;object-fit:cover;object-position:center top;display:block;filter:brightness(0.75);">
-      <img src="images/group-photo.jpg" alt="The Footprints of Hope team" style="width:100%;height:300px;object-fit:cover;object-position:center top;display:block;filter:brightness(0.75);">
-    </div>
-  </div>
-
-  <!-- How They Connected -->
-  <section class="about-section">
-    <div class="label">The Connection</div>
-    <h2>How the Book Came to Be</h2>
-    <p>Schmitt gained a significant social media presence during his Fulbright work, accumulating thousands of TikTok followers documenting his time in Zambia. Nyambe, who has over 4 million TikTok followers, commented on one of his videos requesting he speak to her students.</p>
-    <p>Within twelve hours, she messaged him directly. His initial one-day visit to her school extended to a week-long stay&mdash;and ultimately, a year of documenting her extraordinary journey. The result was Under a Zambian Tree.</p>
   </section>
 
   <!-- CTA -->
   <div class="cta-bar">
-    <h3>Read the Story</h3>
-    <p>Available now in hardcover, paperback, and Kindle</p>
-    <a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener" class="btn">Order Now</a>
+    <h2>Read the Story</h2>
+    <p class="cta-subtitle">Available now in hardcover, paperback, and Kindle</p>
+    <div class="amazon-rating">
+      <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span class="rating-text">4.8 out of 5 on Amazon</span>
+    </div>
+    <div class="cta-buttons">
+      <a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ" target="_blank" rel="noopener" class="btn btn-primary">Order Hardcover</a>
+      <a href="https://www.amazon.com/Under-Zambian-Tree-Nyambes-educate-ebook/dp/B0BNZ5Q8TN" target="_blank" rel="noopener" class="btn btn-secondary">Kindle Edition</a>
+    </div>
   </div>
 
   <footer>
-    <p>&copy; 2024 Joseph Schmitt. All rights reserved. &nbsp;|&nbsp; <a href="http://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a></p>
+    <p>&copy; 2026 Great Lakes Publishing LLC. All rights reserved. &nbsp;|&nbsp; <a href="https://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a></p>
   </footer>
 
-  <script>
-    // Static content — no scroll animations
-  </script>
 </body>
 </html>
