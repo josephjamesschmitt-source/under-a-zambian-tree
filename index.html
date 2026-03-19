@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Under a Zambian Tree | Joseph Schmitt</title>
+  <meta name="description" content="The true story of Dora Moono Nyambe, who moved to a remote Zambian village and saved over 200 children through education. By Joseph Schmitt.">
+  <link rel="canonical" href="https://www.underazambiantree.com/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="book">
+  <meta property="og:title" content="Under a Zambian Tree">
+  <meta property="og:description" content="The inspiring true story of one woman's quest to educate and empower rural village children in Zambia.">
+  <meta property="og:image" content="https://www.underazambiantree.com/images/og-image.jpg">
+  <meta property="og:url" content="https://www.underazambiantree.com/">
+  <meta property="og:site_name" content="Under a Zambian Tree">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Under a Zambian Tree">
+  <meta name="twitter:description" content="The inspiring true story of one woman's quest to educate and empower rural village children in Zambia.">
+  <meta name="twitter:image" content="https://www.underazambiantree.com/images/og-image.jpg">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -330,6 +347,11 @@
     footer a:hover { color: #c9a84c; }
 
     /* ── Animations ── */
+    /* ── Focus states ── */
+    a:focus-visible, .btn:focus-visible, button:focus-visible {
+      outline: 2px solid #c9a84c; outline-offset: 3px;
+    }
+
     @keyframes scrollPulse {
       0%, 100% { opacity: 0.3; transform: scaleY(1); }
       50% { opacity: 0.8; transform: scaleY(1.2); }
@@ -513,6 +535,24 @@
   <footer>
     <p>&copy; 2026 Great Lakes Publishing LLC. All rights reserved. &nbsp;|&nbsp; <a href="https://www.underazambiantree.com" target="_blank" rel="noopener">underazambiantree.com</a></p>
   </footer>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "Under a Zambian Tree",
+    "author": { "@type": "Person", "name": "Joseph Schmitt" },
+    "description": "The true story of Dora Moono Nyambe, who moved to a remote Zambian village and saved over 200 children through education.",
+    "publisher": { "@type": "Organization", "name": "Great Lakes Publishing LLC" },
+    "image": "https://www.underazambiantree.com/images/og-image.jpg",
+    "url": "https://www.underazambiantree.com",
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "bestRating": "5", "ratingCount": "100" },
+    "offers": [
+      { "@type": "Offer", "availability": "https://schema.org/InStock", "url": "https://www.amazon.com/Under-Zambian-Tree-Nyambes-Educate/dp/B0BTRQSSYQ", "priceCurrency": "USD" },
+      { "@type": "Offer", "availability": "https://schema.org/InStock", "url": "https://www.amazon.com/Under-Zambian-Tree-Nyambes-educate-ebook/dp/B0BNZ5Q8TN", "priceCurrency": "USD" }
+    ]
+  }
+  </script>
 
   <script>
     // ── Frame-based scroll animation with lerp ──
